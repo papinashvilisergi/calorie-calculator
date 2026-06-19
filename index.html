@@ -1,46 +1,37 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <!--
-    If you are serving your web app in a path other than the root, change the
-    href value below to reflect the base path you are serving from.
-
-    The path provided below has to start and end with a slash "/" in order for
-    it to work correctly.
-
-    For more details:
-    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
-
-    This is a placeholder for base href that will be replaced by the value of
-    the `--base-href` argument provided to `flutter build`.
-  -->
-  <base href="/calorie-calculator/">
-
-  <meta charset="UTF-8">
-  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="A new Flutter project.">
-
-  <!-- iOS meta tags & icons -->
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="calorie_calculator">
-  <link rel="apple-touch-icon" href="icons/Icon-192.png">
-
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="favicon.png"/>
-
-  <title>calorie_calculator</title>
-  <link rel="manifest" href="manifest.json">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CalorieFlow | Smart Tracking</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #0F2027; color: white; text-align: center; margin: 0; padding: 50px 20px; }
+        h1 { font-size: 3rem; margin-bottom: 10px; }
+        p { color: #ccc; max-width: 600px; margin: 0 auto 30px; }
+        .download-btn { 
+            background: #6C63FF; color: white; padding: 15px 40px; 
+            text-decoration: none; border-radius: 50px; font-weight: bold;
+            display: inline-block; transition: 0.3s;
+        }
+        .download-btn:hover { background: #5a54d4; transform: scale(1.05); }
+        footer { margin-top: 100px; font-size: 0.9rem; color: #888; border-top: 1px solid #333; padding-top: 20px; }
+        footer a { color: #6C63FF; text-decoration: none; }
+    </style>
 </head>
 <body>
-  <!--
-    You can customize the "flutter_bootstrap.js" script.
-    This is useful to provide a custom configuration to the Flutter loader
-    or to give the user feedback during the initialization process.
 
-    For more details:
-    * https://docs.flutter.dev/platform-integration/web/initialization
-  -->
-  <script src="flutter_bootstrap.js" async></script>
+    <h1>CalorieFlow</h1>
+    <p>The smartest and cleanest way to track your daily calorie goals. Download the Android app now and start your journey.</p>
+    
+    <a href="build/app/outputs/flutter-apk/app-release.apk" class="download-btn">Download APK (Android)</a>
+
+    <footer>
+        <p>Website built by Sergi Papinashvili | ✉ <a href="mailto:papinashvilisergi@gmail.com">papinashvilisergi@gmail.com</a></p>
+        <p>
+            <a href="https://linkedin.com/in/sergipapinashvili" target="_blank">linkedin.com/in/sergipapinashvili</a> | 
+            <a href="https://github.com/papinashvilisergi" target="_blank">github.com/papinashvilisergi</a>
+        </p>
+    </footer>
+
 </body>
 </html>
