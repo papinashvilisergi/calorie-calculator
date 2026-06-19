@@ -18,22 +18,9 @@
 <body>
     <h1>CalorieFlow</h1>
     <p>The smartest and cleanest way to track your daily calorie goals. Download the Android app now and start your journey to a healthier you.</p>
-    <a href="#" id="downloadLink" class="download-btn">Loading latest version...</a>
-    <script>
-        fetch('https://api.github.com/repos/papinashvilisergi/calorie-calculator/releases/latest')
-            .then(response => response.json())
-            .then(data => {
-                const asset = data.assets.find(a => a.name === 'CalorieFlow.apk');
-                if (asset) {
-                    const btn = document.getElementById('downloadLink');
-                    btn.href = asset.browser_download_url;
-                    btn.textContent = "Download CalorieFlow (Latest APK)";
-                } else {
-                    document.getElementById('downloadLink').textContent = "APK not found";
-                }
-            })
-            .catch(() => document.getElementById('downloadLink').textContent = "Error loading link");
-    </script>
+    
+    <a href="https://github.com/papinashvilisergi/calorie-calculator/releases/latest/download/CalorieFlow.apk" class="download-btn">Download CalorieFlow (Latest APK)</a>
+    
     <footer>
         <p>Website built by Sergi Papinashvili | ✉ <a href="mailto:papinashvilisergi@gmail.com">papinashvilisergi@gmail.com</a></p>
     </footer>
