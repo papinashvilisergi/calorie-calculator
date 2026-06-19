@@ -37,8 +37,8 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
   final TextEditingController _heightController = TextEditingController();
   final TextEditingController _ageController = TextEditingController();
 
-  String _gender = 'Male';
-  String _activityLevel = 'Sedentary';
+  String? _gender;
+  String? _activityLevel;
   String _result = '';
 
   final Map<String, double> _activityMultipliers = {
@@ -53,8 +53,9 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
     double height = double.tryParse(_heightController.text) ?? 0;
     int age = int.tryParse(_ageController.text) ?? 0;
 
-    if (weight > 0 && height > 0 && age > 0) {
+    if (weight > 0 && height > 0 && age > 0 && _gender != null && _activityLevel != null) {
       double bmr;
+      // Male/Female logic (for Other/Rather not to say, we default to Male formula or average)
       if (_gender == 'Male') {
         bmr = (10 * weight) + (6.25 * height) - (5 * age) + 5;
       } else {
@@ -62,13 +63,12 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
       }
 
       double tdee = bmr * (_activityMultipliers[_activityLevel] ?? 1.2);
-
       setState(() {
         _result = 'Daily goal: ${tdee.toStringAsFixed(0)} kcal';
       });
     } else {
       setState(() {
-        _result = 'Please enter valid data';
+        _result = 'Please fill all fields correctly';
       });
     }
   }
@@ -99,7 +99,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
               const SizedBox(height: 15),
               _inputField(_ageController, 'Age', Icons.cake),
               const SizedBox(height: 15),
-              _dropdown('Gender', _gender, ['Male', 'Female'], Icons.people),
+              _dropdown('Gender', _gender, ['Female', 'Male', 'Other', 'Rather not to say'], Icons.people),
               const SizedBox(height: 15),
               _dropdown('Activity Level', _activityLevel, _activityMultipliers.keys.toList(), Icons.fitness_center),
               const SizedBox(height: 30),
@@ -137,13 +137,15 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
     );
   }
 
-  Widget _dropdown(String label, String value, List<String> items, IconData icon) {
+  Widget _dropdown(String label, String? value, List<String> items, IconData icon) {
     return DropdownButtonFormField<String>(
       value: value,
+      hint: Text("Select $label"),
+      isExpanded: true,
       items: items.map((val) => DropdownMenuItem(value: val, child: Text(val))).toList(),
       onChanged: (val) => setState(() {
-        if (label == 'Gender') _gender = val!;
-        if (label == 'Activity Level') _activityLevel = val!;
+        if (label == 'Gender') _gender = val;
+        if (label == 'Activity Level') _activityLevel = val;
       }),
       decoration: InputDecoration(
         labelText: label,
@@ -151,6 +153,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
         border: const OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(12))),
         filled: true,
         fillColor: Colors.white.withOpacity(0.05),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
       ),
     );
   }
