@@ -27,6 +27,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           tag_name: v1.0.${{ github.run_number }}
-          files: build/app/outputs/flutter-apk/*.apk
+          # The file name must match the one we set in build.gradle.kts
+          files: build/app/outputs/flutter-apk/CalorieFlow.apk
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
