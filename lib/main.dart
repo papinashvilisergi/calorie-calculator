@@ -55,11 +55,15 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
 
     if (weight > 0 && height > 0 && age > 0 && _gender != null && _activityLevel != null) {
       double bmr;
-      // Male/Female logic (for Other/Rather not to say, we default to Male formula or average)
+      
+      // განახლებული ლოგიკა ყველა სქესისთვის
       if (_gender == 'Male') {
         bmr = (10 * weight) + (6.25 * height) - (5 * age) + 5;
-      } else {
+      } else if (_gender == 'Female') {
         bmr = (10 * weight) + (6.25 * height) - (5 * age) - 161;
+      } else {
+        // Other და Rather not to say-სთვის ვიღებთ საშუალოს (-78)
+        bmr = (10 * weight) + (6.25 * height) - (5 * age) - 78;
       }
 
       double tdee = bmr * (_activityMultipliers[_activityLevel] ?? 1.2);
