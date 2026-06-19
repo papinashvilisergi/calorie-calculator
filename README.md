@@ -26,4 +26,4 @@ CalorieFlow is a sleek and efficient calorie calculation application built with 
 - [ ] Implement Light/Dark theme switching.
 
 ---
-*Built by [Sergi Papinashvili]*
+*Built by Sergi Papinashvili*
