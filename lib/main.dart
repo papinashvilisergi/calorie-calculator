@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const CalorieCalculatorApp());
+  runApp(const CalorieFlowApp());
 }
 
-class CalorieCalculatorApp extends StatelessWidget {
-  const CalorieCalculatorApp({super.key});
+class CalorieFlowApp extends StatelessWidget {
+  const CalorieFlowApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'CalorieFlow',
       theme: ThemeData(
+        useMaterial3: true,
         brightness: Brightness.dark,
-        primaryColor: const Color(0xFF2C5364),
-        scaffoldBackgroundColor: const Color(0xFF0F2027),
-        colorScheme: const ColorScheme.dark(
-          primary: Color(0xFF6C63FF),
-          secondary: Color(0xFF2C5364),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFF6C63FF),
+          brightness: Brightness.dark,
         ),
       ),
       home: const CalculatorScreen(),
@@ -36,7 +36,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
   final TextEditingController _weightController = TextEditingController();
   final TextEditingController _heightController = TextEditingController();
   final TextEditingController _ageController = TextEditingController();
-  
+
   String _gender = 'Male';
   String _activityLevel = 'Sedentary';
   String _result = '';
@@ -64,7 +64,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
       double tdee = bmr * (_activityMultipliers[_activityLevel] ?? 1.2);
 
       setState(() {
-        _result = 'Daily calories to maintain: ${tdee.toStringAsFixed(0)}';
+        _result = 'Daily goal: ${tdee.toStringAsFixed(0)} kcal';
       });
     } else {
       setState(() {
@@ -77,9 +77,9 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('CalorieFlow'),
+        title: const Text('CalorieFlow', style: TextStyle(fontWeight: FontWeight.bold)),
+        centerTitle: true,
         backgroundColor: const Color(0xFF203A43),
-        elevation: 0,
       ),
       body: Container(
         decoration: const BoxDecoration(
@@ -93,54 +93,64 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
           padding: const EdgeInsets.all(20.0),
           child: Column(
             children: [
-              TextField(
-                controller: _weightController, 
-                decoration: const InputDecoration(labelText: 'Weight (kg)', border: OutlineInputBorder()), 
-                keyboardType: TextInputType.number
-              ),
+              _inputField(_weightController, 'Weight (kg)', Icons.scale),
               const SizedBox(height: 15),
-              TextField(
-                controller: _heightController, 
-                decoration: const InputDecoration(labelText: 'Height (cm)', border: OutlineInputBorder()), 
-                keyboardType: TextInputType.number
-              ),
+              _inputField(_heightController, 'Height (cm)', Icons.height),
               const SizedBox(height: 15),
-              TextField(
-                controller: _ageController, 
-                decoration: const InputDecoration(labelText: 'Age', border: OutlineInputBorder()), 
-                keyboardType: TextInputType.number
-              ),
+              _inputField(_ageController, 'Age', Icons.cake),
               const SizedBox(height: 15),
-              DropdownButtonFormField<String>(
-                value: _gender,
-                items: ['Male', 'Female'].map((String val) => DropdownMenuItem(value: val, child: Text(val))).toList(),
-                onChanged: (val) => setState(() => _gender = val!),
-                decoration: const InputDecoration(labelText: 'Gender', border: OutlineInputBorder()),
-              ),
+              _dropdown('Gender', _gender, ['Male', 'Female'], Icons.people),
               const SizedBox(height: 15),
-              DropdownButtonFormField<String>(
-                value: _activityLevel,
-                items: _activityMultipliers.keys.map((String val) => DropdownMenuItem(value: val, child: Text(val))).toList(),
-                onChanged: (val) => setState(() => _activityLevel = val!),
-                decoration: const InputDecoration(labelText: 'Activity Level', border: OutlineInputBorder()),
-              ),
+              _dropdown('Activity Level', _activityLevel, _activityMultipliers.keys.toList(), Icons.fitness_center),
               const SizedBox(height: 30),
               SizedBox(
                 width: double.infinity,
-                height: 50,
-                child: ElevatedButton(
-                  onPressed: _calculateCalories, 
-                  child: const Text('CALCULATE', style: TextStyle(fontSize: 16))
+                height: 55,
+                child: FilledButton(
+                  onPressed: _calculateCalories,
+                  child: const Text('CALCULATE', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
                 ),
               ),
               const SizedBox(height: 30),
               Text(
-                _result, 
-                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)
+                _result,
+                style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.white),
               ),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _inputField(TextEditingController controller, String label, IconData icon) {
+    return TextField(
+      controller: controller,
+      keyboardType: TextInputType.number,
+      decoration: InputDecoration(
+        labelText: label,
+        prefixIcon: Icon(icon),
+        border: const OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(12))),
+        filled: true,
+        fillColor: Colors.white.withOpacity(0.05),
+      ),
+    );
+  }
+
+  Widget _dropdown(String label, String value, List<String> items, IconData icon) {
+    return DropdownButtonFormField<String>(
+      value: value,
+      items: items.map((val) => DropdownMenuItem(value: val, child: Text(val))).toList(),
+      onChanged: (val) => setState(() {
+        if (label == 'Gender') _gender = val!;
+        if (label == 'Activity Level') _activityLevel = val!;
+      }),
+      decoration: InputDecoration(
+        labelText: label,
+        prefixIcon: Icon(icon),
+        border: const OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(12))),
+        filled: true,
+        fillColor: Colors.white.withOpacity(0.05),
       ),
     );
   }
